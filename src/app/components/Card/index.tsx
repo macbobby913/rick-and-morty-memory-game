@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 
@@ -7,8 +9,43 @@ type CardProps = {
 };
 
 function Card({ src, alt }: CardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cardElement = cardRef.current;
+    if (!cardElement) return;
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      const cardHeightHalf = cardElement.clientHeight / 2;
+      // the amount to rotate in the x axis, ex : 15deg ~ -15deg
+      const rotAmountX = 30;
+      const rotRatioX = 100 / rotAmountX;
+      const percentageY = (ev.offsetY * 100) / cardHeightHalf;
+      const subtractDegX = percentageY / rotRatioX;
+      const rotX = rotAmountX - subtractDegX;
+
+      const rotAmountY = 30;
+      const rotRatioY = 100 / rotAmountY;
+      const cardWidthHalf = cardElement.clientWidth / 2;
+      const percentageX = (ev.offsetX * 100) / cardWidthHalf;
+      const degY = percentageX / rotRatioY;
+      const rotY = degY - rotAmountX;
+      cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    };
+    cardElement.addEventListener("mousemove", handleMouseMove);
+
+    const handleMouseLeave = (ev: MouseEvent) =>
+      (cardElement.style.transform = `rotateX(0deg)`);
+    cardElement.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      cardElement.removeEventListener("mousemove", handleMouseMove);
+      cardElement.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [cardRef]);
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} ref={cardRef}>
       <div className={styles.inner_wrapper}>
         <Image src={src} alt={alt} width={300} height={300} />
       </div>
