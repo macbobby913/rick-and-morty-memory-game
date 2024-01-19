@@ -9,7 +9,9 @@ type CardProps = {
 function Card({ src, alt }: CardProps) {
   return (
     <div className={styles.card}>
-      <Image src={src} alt={alt} width={300} height={300} />
+      <div className={styles.inner_wrapper}>
+        <Image src={src} alt={alt} width={300} height={300} />
+      </div>
     </div>
   );
 }

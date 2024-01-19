@@ -6,12 +6,52 @@
   border-radius: 10px;
   position: relative;
   overflow: hidden;
+  filter: drop-shadow(0px 5px 5px #b2b2b2);
 
-  img {
+  .inner_wrapper {
     position: absolute;
-    width: 120%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 150%;
+    }
+    @mixin white_frame {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      // size
+      width: 100%;
+      height: 100%;
+      // optional if you don't want it to be a circle
+      // border-radius: 15px;
+
+      // border thickess and color(can be solid, gradient color or background image)
+      border: solid 0.8vw transparent;
+      background: white border-box;
+      // background: url("https://upload.wikimedia.org/wikipedia/commons/e/e0/Grass_at_a_lawn_with_morning_dew_02.jpg") border-box;
+
+      // creating two masks and using them
+      --m: linear-gradient(blue, blue) content-box,
+        linear-gradient(blue, blue) border-box;
+      mask: var(--m);
+      -webkit-mask: var(--m);
+
+      // controls how to composite all the masks
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    // yup, need both ::before and ::after
+    // ::after is for the inner border radius of the white_frame
+    &::before {
+      @include white_frame;
+    }
+    &::after {
+      @include white_frame;
+      border-radius: 20px;
+    }
   }
 }
