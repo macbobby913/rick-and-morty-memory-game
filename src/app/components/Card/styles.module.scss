@@ -19,6 +19,21 @@
     img {
       width: 150%;
     }
+
+    .glare {
+      background: radial-gradient(
+        circle at 10% 10%,
+        rgb(226, 225, 248),
+        transparent
+      );
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
     @mixin white_frame {
       content: "";
       position: absolute;

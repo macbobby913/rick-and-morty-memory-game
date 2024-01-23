@@ -10,10 +10,12 @@ type CardProps = {
 
 function Card({ src, alt }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cardElement = cardRef.current;
-    if (!cardElement) return;
+    const glareElement = glareRef.current;
+    if (!cardElement || !glareElement) return;
 
     const handleMouseMove = (ev: MouseEvent) => {
       const cardHeightHalf = cardElement.clientHeight / 2;
@@ -31,6 +33,13 @@ function Card({ src, alt }: CardProps) {
       const degY = percentageX / rotRatioY;
       const rotY = degY - rotAmountX;
       cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+      // set glare position based on cursor position
+      glareElement.style.background = `radial-gradient(
+      circle at ${ev.offsetX}px ${ev.offsetY}px,
+      rgb(226, 225, 248),
+      transparent
+    )`;
     };
     cardElement.addEventListener("mousemove", handleMouseMove);
 
@@ -48,6 +57,7 @@ function Card({ src, alt }: CardProps) {
     <div className={styles.card} ref={cardRef}>
       <div className={styles.inner_wrapper}>
         <Image src={src} alt={alt} width={300} height={300} />
+        <div className={styles.glare} ref={glareRef} />
       </div>
     </div>
   );
