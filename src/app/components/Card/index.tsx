@@ -37,7 +37,7 @@ function Card({ src, alt }: CardProps) {
       // set glare position based on cursor position
       glareElement.style.background = `radial-gradient(
       circle at ${ev.offsetX}px ${ev.offsetY}px,
-      rgb(226, 225, 248),
+      rgba(255, 255, 255, 0.5),
       transparent
     )`;
     };
