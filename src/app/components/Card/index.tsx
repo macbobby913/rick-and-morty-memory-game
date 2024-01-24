@@ -24,15 +24,14 @@ const cardRotation = (
   // convert the percentage into degrees
   const subtractDegX = percentageY / rotRatioX;
   // get the amount of rotation in degrees
-  // "-1" is for reversing the rotation angle relative to the cursor position
-  const rotX = (rotAmountX - subtractDegX) * -1;
+  const rotX = rotAmountX - subtractDegX;
 
   // define the amount to rotate in the y axis, ex : 15deg ~ -15deg
   const rotAmountY = 15;
   const rotRatioY = 100 / rotAmountY;
   const percentageX = (x * 100) / cardWidthHalf;
   const degY = percentageX / rotRatioY;
-  const rotY = (degY - rotAmountX) * -1;
+  const rotY = degY - rotAmountX;
   // actual rotation
   cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
 };
