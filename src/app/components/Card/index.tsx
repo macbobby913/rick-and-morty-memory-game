@@ -24,14 +24,14 @@ function Card({ src, alt }: CardProps) {
       const rotRatioX = 100 / rotAmountX;
       const percentageY = (ev.offsetY * 100) / cardHeightHalf;
       const subtractDegX = percentageY / rotRatioX;
-      const rotX = rotAmountX - subtractDegX;
+      const rotX = (rotAmountX - subtractDegX) * -1;
 
       const rotAmountY = 30;
       const rotRatioY = 100 / rotAmountY;
       const cardWidthHalf = cardElement.clientWidth / 2;
       const percentageX = (ev.offsetX * 100) / cardWidthHalf;
       const degY = percentageX / rotRatioY;
-      const rotY = degY - rotAmountX;
+      const rotY = (degY - rotAmountX) * -1;
       cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
 
       // set glare position based on cursor position
