@@ -16,7 +16,7 @@ const cardRotation = (
   cardElement: HTMLDivElement
 ) => {
   // define the amount to rotate in the x axis, ex : 15deg ~ -15deg
-  const rotAmountX = 30;
+  const rotAmountX = 15;
   // for converting percentage into degrees
   const rotRatioX = 100 / rotAmountX;
   // get the percentage of the value of "y" and the value of "cardHeightHalf"
@@ -28,7 +28,7 @@ const cardRotation = (
   const rotX = (rotAmountX - subtractDegX) * -1;
 
   // define the amount to rotate in the y axis, ex : 15deg ~ -15deg
-  const rotAmountY = 30;
+  const rotAmountY = 15;
   const rotRatioY = 100 / rotAmountY;
   const percentageX = (x * 100) / cardWidthHalf;
   const degY = percentageX / rotRatioY;
