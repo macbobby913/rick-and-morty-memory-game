@@ -1,20 +1,21 @@
 .card {
   width: 100%;
   padding-bottom: 150%;
-  // height: 300px;
-  border-radius: 10px;
   position: relative;
-  overflow: hidden;
-  filter: drop-shadow(0px 5px 5px #b2b2b2);
   transition: transform 0.25s ease-out;
+  transform-style: preserve-3d;
 
-  .inner_wrapper {
+  .front {
     position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 10px;
+    filter: drop-shadow(0px 5px 5px #b2b2b2);
 
     img {
       width: 150%;
@@ -64,11 +65,15 @@
     // ::after is for the inner border radius of the white_frame
     &::before {
       @include white_frame;
-      filter: drop-shadow(0px 5px 1px #b2b2b2);
     }
     &::after {
       @include white_frame;
       border-radius: 20px;
     }
+  }
+  .back {
+    @extend .front;
+    transform: rotateY(180deg);
+    background-color: teal;
   }
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 
@@ -8,19 +8,43 @@ type CardProps = {
   alt: string;
 };
 
-const cardRotation = (
-  x: number,
-  y: number,
+/* 
+  handles the ACTUAL rotation for the cardElement 
+  which takes whether cardElement is "front facing up" 
+  or "back facing up" into consideration.
+*/
+const setCardRotation = (
+  rotX: number,
+  rotY: number,
+  cardElement: HTMLDivElement,
+  isFront: boolean
+) => {
+  // notice the 180 deg rotation offset here
+  cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${
+    isFront ? rotY : rotY + 180
+  }deg)`;
+};
+
+/* 
+  this method is intended to be called in "mousemove" event,
+  it returns the rotation for x and y axis where the cardElement
+  is "looking at" the cursor's position.
+
+  it DOES NOT take whether cardElement is "front facing up" 
+  or "back facing up" into consideration.
+*/
+const getCardLookAtCursorRotation = (
+  cursorX: number,
+  cursorY: number,
   cardHeightHalf: number,
-  cardWidthHalf: number,
-  cardElement: HTMLDivElement
+  cardWidthHalf: number
 ) => {
   // define the amount to rotate in the x axis, ex : 15deg ~ -15deg
   const rotAmountX = 15;
   // for converting percentage into degrees
   const rotRatioX = 100 / rotAmountX;
-  // get the percentage of the value of "y" and the value of "cardHeightHalf"
-  const percentageY = (y * 100) / cardHeightHalf;
+  // get the percentage of the value of "cursorY" and the value of "cardHeightHalf"
+  const percentageY = (cursorY * 100) / cardHeightHalf;
   // convert the percentage into degrees
   const subtractDegX = percentageY / rotRatioX;
   // get the amount of rotation in degrees
@@ -29,11 +53,14 @@ const cardRotation = (
   // define the amount to rotate in the y axis, ex : 15deg ~ -15deg
   const rotAmountY = 15;
   const rotRatioY = 100 / rotAmountY;
-  const percentageX = (x * 100) / cardWidthHalf;
+  const percentageX = (cursorX * 100) / cardWidthHalf;
   const degY = percentageX / rotRatioY;
   const rotY = degY - rotAmountX;
-  // actual rotation
-  cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+  return {
+    rotX,
+    rotY,
+  };
 };
 
 const setGlarePosition = (
@@ -59,11 +86,15 @@ const setGlarePosition = (
 function Card({ src, alt }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
+  const [isFront, setIsFront] = useState<boolean>(true);
 
   useEffect(() => {
     const cardElement = cardRef.current;
     const glareElement = glareRef.current;
     if (!cardElement || !glareElement) return;
+
+    // reset the card's rotation
+    setCardRotation(0, 0, cardElement, isFront);
 
     const handleMouseMove = (ev: MouseEvent) => {
       // the x & y position of the cursor relative to the card
@@ -71,13 +102,20 @@ function Card({ src, alt }: CardProps) {
       const y = ev.offsetY;
       const cardHeightHalf = cardElement.clientHeight / 2;
       const cardWidthHalf = cardElement.clientWidth / 2;
-      cardRotation(x, y, cardHeightHalf, cardWidthHalf, cardElement);
+      const { rotX, rotY } = getCardLookAtCursorRotation(
+        x,
+        y,
+        cardHeightHalf,
+        cardWidthHalf
+      );
+      setCardRotation(rotX, rotY, cardElement, isFront);
       setGlarePosition(x, y, cardWidthHalf, cardHeightHalf, glareElement);
     };
     cardElement.addEventListener("mousemove", handleMouseMove);
 
     const handleMouseLeave = (ev: MouseEvent) => {
-      cardElement.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      // reset the card's rotation
+      setCardRotation(0, 0, cardElement, isFront);
       glareElement.style.background = ` radial-gradient(
         circle at 10% 10%,
         rgba(255, 255, 255, 0.5),
@@ -90,13 +128,20 @@ function Card({ src, alt }: CardProps) {
       cardElement.removeEventListener("mousemove", handleMouseMove);
       cardElement.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [cardRef]);
+  }, [cardRef, isFront]);
 
   return (
-    <div className={styles.card} ref={cardRef}>
-      <div className={styles.inner_wrapper}>
+    <div
+      className={styles.card}
+      ref={cardRef}
+      onClick={() => setIsFront((prev) => !prev)}
+    >
+      <div className={styles.front}>
         <Image src={src} alt={alt} width={300} height={300} />
         <div className={styles.glare} ref={glareRef} />
+      </div>
+      <div className={styles.back}>
+        <div className={styles.bg}></div>
       </div>
     </div>
   );
