@@ -19,10 +19,9 @@ const setCardRotation = (
   cardElement: HTMLDivElement,
   isFront: boolean
 ) => {
-  // notice the 180 deg rotation offset here
-  cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${
-    isFront ? rotY : rotY + 180
-  }deg)`;
+  // notice the negative rotY and 180 deg rotation offset here
+  const finaleRotY = isFront ? rotY : -rotY + 180;
+  cardElement.style.transform = `rotateX(${rotX}deg) rotateY(${finaleRotY}deg)`;
 };
 
 /* 
@@ -49,7 +48,6 @@ const getCardLookAtCursorRotation = (
   const subtractDegX = percentageY / rotRatioX;
   // get the amount of rotation in degrees
   const rotX = rotAmountX - subtractDegX;
-
   // define the amount to rotate in the y axis, ex : 15deg ~ -15deg
   const rotAmountY = 15;
   const rotRatioY = 100 / rotAmountY;
