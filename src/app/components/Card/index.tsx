@@ -139,7 +139,7 @@ function Card({ src, alt }: CardProps) {
     >
       <div className={styles.glare} ref={glareRef} />
       <div className={styles.front}>
-        <Image src={src} alt={alt} width={300} height={300} />
+        <Image src={src} alt={alt} fill />
       </div>
       <div className={styles.back}>
         <div className={styles.stripe_3} />

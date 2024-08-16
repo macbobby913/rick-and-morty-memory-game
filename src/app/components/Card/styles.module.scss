@@ -35,7 +35,7 @@
     filter: drop-shadow(0px 5px 5px #b2b2b2);
 
     img {
-      width: 150%;
+      object-fit: cover;
     }
 
     @mixin white_frame {
@@ -68,10 +68,11 @@
     // ::after is for the inner border radius of the white_frame
     &::before {
       @include white_frame;
+      border-radius: 20px;
+      z-index: 1;
     }
     &::after {
       @include white_frame;
-      border-radius: 20px;
     }
   }
   .back {
