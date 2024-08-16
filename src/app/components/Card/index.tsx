@@ -132,14 +132,19 @@ function Card({ src, alt }: CardProps) {
     <div
       className={styles.card}
       ref={cardRef}
-      onClick={() => setIsFront((prev) => !prev)}
+      onClick={() => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/Location/href
+        setIsFront((prev) => !prev)
+      }}
     >
+      <div className={styles.glare} ref={glareRef} />
       <div className={styles.front}>
         <Image src={src} alt={alt} width={300} height={300} />
-        <div className={styles.glare} ref={glareRef} />
       </div>
       <div className={styles.back}>
-        <div className={styles.bg}></div>
+        <div className={styles.stripe_3} />
+        <div className={styles.stripe_1} />
+        <div className={styles.stripe_2} />
       </div>
     </div>
   );

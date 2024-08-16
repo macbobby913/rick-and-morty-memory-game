@@ -38,7 +38,6 @@
       width: 150%;
     }
 
-
     @mixin white_frame {
       content: "";
       position: absolute;
@@ -78,6 +77,35 @@
   .back {
     @extend .front;
     transform: rotateY(180deg);
-    background-color: teal;
+    background: linear-gradient(
+      135deg,
+      rgb(0, 0, 134) 40%,
+      orange 41%,
+      orangered 60%,
+      rgb(1, 1, 134) 61%
+    );
+    .stripe_1 {
+      position: absolute;
+      top: 20%;
+      right: -5%;
+      width: 100%;
+      padding-bottom: 10%;
+      background-color: rgb(255, 213, 0);
+      transform: rotateZ(135deg) skewX(135deg);
+    }
+    .stripe_2 {
+      @extend .stripe_1;
+      top: 75%;
+      right: 5%;
+      background-color: orangered;
+      // transform: rotateZ(135deg) skewX(45deg);
+    }
+    .stripe_3{
+      @extend .stripe_1;
+      padding-bottom: 20%;
+      // top: 30%;
+      // background-color: rgb(221, 59, 0);
+      // transform: rotateZ(135deg) skewX(45deg);
+    }
   }
 }
