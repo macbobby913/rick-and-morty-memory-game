@@ -38,7 +38,6 @@ function Board({ characters }: BoardProps) {
   const handleCardFlipped = useCallback((receivedCallback: () => void) => {
     setFlippedCardCount((prev) => prev + 1);
     setMakeCardFrontFacingDownCallbacks((prev) => [...prev, receivedCallback]);
-    console.log("hi");
   }, []);
 
   // -------------------------- 3. if the player flipped 2 cards, flip those cards back (card is front facing down) ---------------------------
