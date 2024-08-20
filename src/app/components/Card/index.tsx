@@ -98,7 +98,7 @@ const setGlarePosition = (
   const finaleY = y < midY ? midY + distY : midY - distY;
   glareElement.style.background = `radial-gradient(
     circle at ${finaleX}px ${finaleY}px,
-    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.3),
     transparent
   )`;
 };
@@ -136,7 +136,7 @@ function Card({ src, alt, onCardFlipped }: CardProps) {
       setCardRotation(0, 0, cardElement, isFront);
       glareElement.style.background = ` radial-gradient(
         circle at 10% 10%,
-        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.3),
         transparent
       )`;
     };

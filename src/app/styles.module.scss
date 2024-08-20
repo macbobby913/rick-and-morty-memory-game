@@ -1,0 +1,136 @@
+.bg {
+  background-color: #220567;
+  width: 100lvw;
+  height: 100lvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  filter: contrast(200%) saturate(200%) brightness(0.45);
+
+  .glob {
+    position: absolute;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    filter: blur(2.5lvw);
+  }
+
+  .glob_1 {
+    @extend .glob;
+    width: 40svw;
+    background: rgba(153, 255, 204, 0.4);
+    transform: rotate(90deg) translate(45lvh, 5lvw);
+    animation: glob_1 7s ease-in-out infinite alternate;
+    animation-delay: -2s;
+  }
+  @keyframes glob_1 {
+    from {
+      transform: rotate(90deg) translate(45lvh, 0);
+    }
+    to {
+      transform: rotate(120deg) translate(-20lvh, 0);
+    }
+  }
+
+  .glob_2 {
+    @extend .glob;
+    width: 25lvw;
+    background: rgba(255, 221, 153, 0.4);
+    transform: rotate(200deg) translate(-35lvh, 12lvw);
+    animation: glob_2 4s ease-in-out infinite alternate;
+    animation-delay: -1s;
+  }
+  @keyframes glob_2 {
+    from {
+      transform: rotate(200deg) translate(-35lvh, 12lvw);
+    }
+    to {
+      transform: rotate(240deg) translate(-35lvh, 12lvw);
+    }
+  }
+
+  .glob_3 {
+    @extend .glob;
+    width: 32svw;
+    background: rgba(153, 238, 255, 0.4);
+    transform: rotate(-165deg) translate(24lvh, -32lvw);
+    animation: gl0b_3 5s ease-in-out infinite alternate;
+    animation-delay: -3.5s;
+  }
+  @keyframes glob_3 {
+    from {
+      transform: rotate(-165deg) translate(24lvh, -32lvw);
+    }
+    to {
+      transform: rotate(-100deg) translate(24lvh, -32lvw);
+    }
+  }
+
+  .glob_4 {
+    @extend .glob;
+    width: 29svw;
+    background: rgba(240, 168, 192, 0.4);
+    transform: rotate(25deg) translate(-16lvh, -19lvw);
+    animation: glob_4 6s ease-in-out infinite alternate;
+    animation-delay: -1.8s;
+  }
+  @keyframes glob_4 {
+    from {
+      transform: rotate(25deg) translate(-16lvh, -19lvw);
+    }
+    to {
+      transform: rotate(-20deg) translate(-16lvh, -19lvw);
+    }
+  }
+
+  .glob_5 {
+    @extend .glob;
+    width: 37svw;
+    background: rgba(255, 153, 179, 0.4);
+    transform: rotate(-55deg) translate(30lvh, 26lvw);
+    animation: glob_5 5.5s ease-in-out infinite alternate;
+    animation-delay: -0.4s;
+  }
+  @keyframes glob_5 {
+    from {
+      transform: rotate(-55deg) translate(30lvh, 26lvw);
+    }
+    to {
+      transform: rotate(-70deg) translate(30lvh, 26lvw);
+    }
+  }
+
+  .glob_6 {
+    @extend .glob;
+    width: 24svw;
+    background: rgba(153, 247, 255, 0.4);
+    transform: rotate(120deg) translate(-40lvh, 46lvw);
+    animation: glob_6 9.5s ease-in-out infinite alternate;
+    animation-delay: -7.4s;
+  }
+  @keyframes glob_6 {
+    from {
+      transform: rotate(120deg) translate(-40lvh, 46lvw);
+    }
+    to {
+      transform: rotate(95deg) translate(52lvh, 46lvw);
+    }
+  }
+
+  .glob_7 {
+    @extend .glob;
+    width: 31svw;
+    background: rgba(255, 196, 153, 0.4);
+    transform: rotate(-55deg) translate(-24lvh, 56lvw);
+    animation: glob_7 15.5s ease-in-out infinite alternate;
+    animation-delay: -5.7s;
+  }
+  @keyframes glob_7 {
+    from {
+      transform: rotate(-55deg) translate(-24lvh, 56lvw);
+    }
+    to {
+      transform: rotate(-75deg) translate(-19lvh, -39lvw);
+    }
+  }
+}

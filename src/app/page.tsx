@@ -1,5 +1,6 @@
 import Board from "./components/Board";
 import { CharactersResJSON } from "./type/characters";
+import styles from "./styles.module.scss";
 
 const getCharacters = async () => {
   const url = "https://rickandmortyapi.com/api/character/1,2,3,4,5";
@@ -23,8 +24,19 @@ export default async function Home() {
   const characters = await getCharacters();
 
   return (
-    <main className="w-full h-screen bg-orange-100 flex justify-center items-center">
-      <Board characters={characters}/>
-    </main>
+    <>
+      <section className={styles.bg} >
+        <div className={styles.glob_1}/>
+        <div className={styles.glob_2}/>
+        <div className={styles.glob_3}/>
+        <div className={styles.glob_4}/>
+        <div className={styles.glob_5}/>
+        <div className={styles.glob_6}/>
+        <div className={styles.glob_7}/>
+      </section>
+      <main className="w-full h-screen flex justify-center items-center">
+        <Board characters={characters} />
+      </main>
+    </>
   );
 }

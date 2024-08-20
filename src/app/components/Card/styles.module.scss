@@ -8,7 +8,7 @@
   .glare {
     background: radial-gradient(
       circle at 10% 10%,
-      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.3),
       transparent
     );
     position: absolute;
@@ -32,7 +32,6 @@
     overflow: hidden;
     border-radius: 10px;
     pointer-events: none;
-    filter: drop-shadow(0px 5px 5px #b2b2b2);
 
     img {
       object-fit: cover;
@@ -51,7 +50,7 @@
 
       // border thickess and color(can be solid, gradient color or background image)
       border: solid 0.8vw transparent;
-      background: white border-box;
+      background: rgb(240, 240, 240) border-box;
       // background: url("https://upload.wikimedia.org/wikipedia/commons/e/e0/Grass_at_a_lawn_with_morning_dew_02.jpg") border-box;
 
       // creating two masks and using them
@@ -80,10 +79,10 @@
     transform: rotateY(180deg);
     background: linear-gradient(
       135deg,
-      rgb(0, 0, 134) 40%,
-      orange 41%,
-      orangered 60%,
-      rgb(1, 1, 134) 61%
+      rgb(0, 0, 87) 40%,
+      rgb(239, 155, 0) 41%,
+      rgb(232, 62, 0) 60%,
+      rgb(0, 0, 87) 61%
     );
     .stripe_1 {
       position: absolute;
@@ -91,7 +90,7 @@
       right: -5%;
       width: 100%;
       padding-bottom: 10%;
-      background-color: rgb(255, 213, 0);
+      background-color: rgb(241, 201, 1);
       transform: rotateZ(135deg) skewX(135deg);
     }
     .stripe_2 {
@@ -101,7 +100,7 @@
       background-color: orangered;
       // transform: rotateZ(135deg) skewX(45deg);
     }
-    .stripe_3{
+    .stripe_3 {
       @extend .stripe_1;
       padding-bottom: 20%;
       // top: 30%;
