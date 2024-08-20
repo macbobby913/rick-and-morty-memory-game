@@ -135,7 +135,6 @@ function Card({ src, alt, onCardFlipped }: CardProps) {
         transparent
       )`;
     };
-    flipCard(); // reset the card's rotation
     cardElement.addEventListener("mouseleave", flipCard);
 
     return () => {
@@ -161,6 +160,9 @@ function Card({ src, alt, onCardFlipped }: CardProps) {
   return (
     <div
       className={styles.card}
+      style={{
+        transform: `rotateX(0deg) rotateY(${isFront ? "0deg" : "180deg"})`,
+      }}
       ref={cardRef}
       onClick={() => {
         setIsFront((prev) => !prev);
