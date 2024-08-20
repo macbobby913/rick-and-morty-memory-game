@@ -19,10 +19,15 @@ import Image from "next/image";
   card's back : the side that shows abstract image
 */
 
+export type OnCardFlippedEventInfo = {
+  makeCardFrontFacingDown: () => void;
+  characterName: string;
+};
+
 type CardProps = {
   src: string;
   alt: string;
-  onCardFlipped: (makeCardFrontFacingDown: () => void) => void;
+  onCardFlipped: (event: OnCardFlippedEventInfo) => void;
 };
 
 /* 
@@ -149,8 +154,11 @@ function Card({ src, alt, onCardFlipped }: CardProps) {
     if (firstRenderCompleted.current === false) return;
     // --------------------------------- 3. a. passing "makeCardFrontFacingDown" callback to "Board" ----------------------------------------
     const makeCardFrontFacingDown = () => setIsFront(false);
-    setTimeout(() => onCardFlipped(makeCardFrontFacingDown), 200); // setTimeout is a hacky way to do it
-  }, [isFront, onCardFlipped]);
+    setTimeout(
+      () => onCardFlipped({ makeCardFrontFacingDown, characterName: alt }),
+      200
+    ); // setTimeout is a hacky way to do it
+  }, [isFront, onCardFlipped, alt]);
 
   useEffect(() => {
     firstRenderCompleted.current = true;

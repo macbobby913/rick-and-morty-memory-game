@@ -1,6 +1,6 @@
 "use client";
 import { Character } from "@/app/type/characters";
-import Card from "../Card";
+import Card, { OnCardFlippedEventInfo } from "../Card";
 import styles from "./styles.module.scss";
 import { useState, useEffect, useCallback } from "react";
 
@@ -9,9 +9,13 @@ import { useState, useEffect, useCallback } from "react";
 
     1. render character cards
 
-    2. keeping track of how many cards are flipped upward by the player (card is front facing up)
+    2. keeping track of cards that are flipped upward by the player (card is front facing up)
 
-    3 if the player flipped 2 cards, flip those cards back (card is front facing down)
+    3. determination logic when player flipped 2 cards
+
+       a. if two cards are the same (same character), make both cards remain front facing up
+
+       b. if both cards are different, flip'em back (make them front facing down)
 */
 
 type BoardProps = { characters: Character[] | undefined };
@@ -28,29 +32,37 @@ function Board({ characters }: BoardProps) {
       it's like [A, C, B, E, D, A, E, D, B, C]
   */
 
-  // ----------------------- 2. keeping track of how many cards are flipped upward by the player (card is front facing up) --------------------
-  const [flippedCardCount, setFlippedCardCount] = useState<number>(0);
-  const [
-    makeCardFrontFacingDownCallbacks,
-    setMakeCardFrontFacingDownCallbacks,
-  ] = useState<(() => void)[]>([]); // collects callbacks received from <Card>s 
+  // ----------------------- 2. keeping track of cards that are flipped upward by the player (card is front facing up) ------------------------
+  const [cardFlippedEventInfoList, setCardFlippedEventInfoList] = useState<
+    OnCardFlippedEventInfo[]
+  >([]);
 
-  const handleCardFlipped = useCallback((receivedCallback: () => void) => {
-    setFlippedCardCount((prev) => prev + 1);
-    setMakeCardFrontFacingDownCallbacks((prev) => [...prev, receivedCallback]);
+  const handleCardFlipped = useCallback((event: OnCardFlippedEventInfo) => {
+    setCardFlippedEventInfoList((prev) => [...prev, event]);
   }, []);
 
-  // -------------------------- 3. if the player flipped 2 cards, flip those cards back (card is front facing down) ---------------------------
   useEffect(() => {
-    if (flippedCardCount < 2) return;
+    if (cardFlippedEventInfoList.length < 2) return;
+    // ------------------------------------------- 3. determination logic when player flipped 2 cards --------------------------------------------
+
+    // 3. a. if two cards are the same (same character), make both cards remain front facing up
+    if (
+      cardFlippedEventInfoList[0].characterName ===
+      cardFlippedEventInfoList[1].characterName
+    ) {
+      // clear event info list
+      setCardFlippedEventInfoList([]);
+      return;
+    }
+    // 3. b. if both cards are different, flip'em back (make them front facing down)
     setTimeout(() => {
-      makeCardFrontFacingDownCallbacks.forEach((callback) => {
-        callback();
+      cardFlippedEventInfoList.forEach((info) => {
+        info.makeCardFrontFacingDown();
       });
-      setMakeCardFrontFacingDownCallbacks([]);
-      setFlippedCardCount(0);
     }, 400);
-  }, [flippedCardCount, makeCardFrontFacingDownCallbacks]);
+    // clear event info list
+    setCardFlippedEventInfoList([]);
+  }, [cardFlippedEventInfoList]);
 
   // ------------------------------------------------------ 1. render character cards ---------------------------------------------------------
   return (
