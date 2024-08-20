@@ -3,9 +3,26 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 
+/* 
+  "Card" is responsible for :
+
+    1. render UI
+
+    2. rotation logic
+      a. card "look at" cursor position
+      b. flipping card upward or downward (making card's front facing up or down)
+
+    3. Logic for WHEN to fire "onCardFlipped" callback when a card FINISHES flipping animation
+      a. passing "makeCardFrontFacingDown" callback to "Board"
+  
+  card's front : the side that has the avatar
+  card's back : the side that shows abstract image
+*/
+
 type CardProps = {
   src: string;
   alt: string;
+  onCardFlipped: (makeCardFrontFacingDown: () => void) => void;
 };
 
 /* 
@@ -81,20 +98,18 @@ const setGlarePosition = (
   )`;
 };
 
-function Card({ src, alt }: CardProps) {
+function Card({ src, alt, onCardFlipped }: CardProps) {
+  // -------------------------------------------------------- 2. rotation logic -------------------------------------------------------------
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
-  const [isFront, setIsFront] = useState<boolean>(true);
-
+  const [isFront, setIsFront] = useState<boolean>(false);
   useEffect(() => {
     const cardElement = cardRef.current;
     const glareElement = glareRef.current;
     if (!cardElement || !glareElement) return;
 
-    // reset the card's rotation
-    setCardRotation(0, 0, cardElement, isFront);
-
-    const handleMouseMove = (ev: MouseEvent) => {
+    // ------------------------------------------------ 2. a. card "look at" cursor position ---------------------------------------------------
+    const cardLookAtCursor = (ev: MouseEvent) => {
       // the x & y position of the cursor relative to the card
       const x = ev.offsetX;
       const y = ev.offsetY;
@@ -109,10 +124,10 @@ function Card({ src, alt }: CardProps) {
       setCardRotation(rotX, rotY, cardElement, isFront);
       setGlarePosition(x, y, cardWidthHalf, cardHeightHalf, glareElement);
     };
-    cardElement.addEventListener("mousemove", handleMouseMove);
+    cardElement.addEventListener("mousemove", cardLookAtCursor);
 
-    const handleMouseLeave = (ev: MouseEvent) => {
-      // reset the card's rotation
+    // ------------------------------- 2. b. flipping card upward or downward (making card's front facing up or down) ---------------------------
+    const flipCard = () => {
       setCardRotation(0, 0, cardElement, isFront);
       glareElement.style.background = ` radial-gradient(
         circle at 10% 10%,
@@ -120,21 +135,35 @@ function Card({ src, alt }: CardProps) {
         transparent
       )`;
     };
-    cardElement.addEventListener("mouseleave", handleMouseLeave);
+    flipCard(); // reset the card's rotation
+    cardElement.addEventListener("mouseleave", flipCard);
 
     return () => {
-      cardElement.removeEventListener("mousemove", handleMouseMove);
-      cardElement.removeEventListener("mouseleave", handleMouseLeave);
+      cardElement.removeEventListener("mousemove", cardLookAtCursor);
+      cardElement.removeEventListener("mouseleave", flipCard);
     };
   }, [cardRef, isFront]);
 
+  // ------------------------ 3. Logic for WHEN to fire "onCardFlipped" callback when a card FINISHES flipping animation ---------------------
+  const firstRenderCompleted = useRef<boolean>(false);
+  useEffect(() => {
+    if (firstRenderCompleted.current === false) return;
+    // --------------------------------- 3. a. passing "makeCardFrontFacingDown" callback to "Board" ----------------------------------------
+    const makeCardFrontFacingDown = () => setIsFront(false);
+    setTimeout(() => onCardFlipped(makeCardFrontFacingDown), 200); // setTimeout is a hacky way to do it
+  }, [isFront, onCardFlipped]);
+
+  useEffect(() => {
+    firstRenderCompleted.current = true;
+  }, []);
+
+  // ----------------------------------------------------------- 1. render UI ------------------------------------------------------------------
   return (
     <div
       className={styles.card}
       ref={cardRef}
       onClick={() => {
-        // https://developer.mozilla.org/en-US/docs/Web/API/Location/href
-        setIsFront((prev) => !prev)
+        setIsFront((prev) => !prev);
       }}
     >
       <div className={styles.glare} ref={glareRef} />

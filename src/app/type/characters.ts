@@ -1,6 +1,6 @@
 export type CharactersResJSON = Character[];
 
-type Character = {
+export type Character = {
   id: number;
   name: string;
   status: string;

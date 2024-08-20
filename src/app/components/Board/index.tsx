@@ -1,29 +1,25 @@
-import { CharactersResJSON } from "@/app/type/characters";
+"use client";
+import { Character } from "@/app/type/characters";
 import Card from "../Card";
 import styles from "./styles.module.scss";
-import {v4 as uuidv4} from 'uuid';
+import { useState, useEffect, useCallback } from "react";
 
-const getCharacters = async () => {
-  const url = "https://rickandmortyapi.com/api/character/1,2,3,4,5";
-  const res = await fetch(url);
-  if (res.status !== 200) return;
-  const characters = (await res.json()) as CharactersResJSON;
-  const doubledCharacters = [...characters,...characters];
-  function shuffle(characters:CharactersResJSON) {
-    for (let i = characters.length - 1; i > 0; i--) {
-      // Generate a random index from 0 to i
-      const j = Math.floor(Math.random() * (i + 1));
-      // Swap elements at index i and j
-      [characters[i], characters[j]] = [characters[j], characters[i]];
-    }
-  }
-  shuffle(doubledCharacters);
-  return doubledCharacters;
-};
+/* 
+  "Board" is responsible for : 
 
-async function Board() {
+    1. render character cards
+
+    2. keeping track of how many cards are flipped upward by the player (card is front facing up)
+
+    3 if the player flipped 2 cards, flip those cards back (card is front facing down)
+*/
+
+type BoardProps = { characters: Character[] | undefined };
+
+function Board({ characters }: BoardProps) {
   /* 
-    The "characters" array here has doubled & shuffled characters.
+    The "characters" array here has doubled & shuffled characters, 
+    which is what "Board" desired :)
 
     ex : 
 
@@ -31,11 +27,42 @@ async function Board() {
 
       it's like [A, C, B, E, D, A, E, D, B, C]
   */
-  const characters = await getCharacters();
+
+  // ----------------------- 2. keeping track of how many cards are flipped upward by the player (card is front facing up) --------------------
+  const [flippedCardCount, setFlippedCardCount] = useState<number>(0);
+  const [
+    makeCardFrontFacingDownCallbacks,
+    setMakeCardFrontFacingDownCallbacks,
+  ] = useState<(() => void)[]>([]); // collects callbacks received from <Card>s 
+
+  const handleCardFlipped = useCallback((receivedCallback: () => void) => {
+    setFlippedCardCount((prev) => prev + 1);
+    setMakeCardFrontFacingDownCallbacks((prev) => [...prev, receivedCallback]);
+    console.log("hi");
+  }, []);
+
+  // -------------------------- 3. if the player flipped 2 cards, flip those cards back (card is front facing down) ---------------------------
+  useEffect(() => {
+    if (flippedCardCount < 2) return;
+    setTimeout(() => {
+      makeCardFrontFacingDownCallbacks.forEach((callback) => {
+        callback();
+      });
+      setMakeCardFrontFacingDownCallbacks([]);
+      setFlippedCardCount(0);
+    }, 400);
+  }, [flippedCardCount, makeCardFrontFacingDownCallbacks]);
+
+  // ------------------------------------------------------ 1. render character cards ---------------------------------------------------------
   return (
     <section className={styles.board}>
-      {characters?.map((character) => (
-        <Card key={uuidv4()} src={character.image} alt={character.name} />
+      {characters?.map((character, index) => (
+        <Card
+          key={index}
+          src={character.image}
+          alt={character.name}
+          onCardFlipped={handleCardFlipped}
+        />
       ))}
     </section>
   );
