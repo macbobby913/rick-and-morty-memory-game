@@ -1,4 +1,5 @@
 import Board from "./components/Board";
+import ReloadButton from "./components/ReloadButton";
 import { CharactersResJSON } from "./type/characters";
 import styles from "./styles.module.scss";
 
@@ -25,17 +26,18 @@ export default async function Home() {
 
   return (
     <>
-      <section className={styles.bg} >
-        <div className={styles.glob_1}/>
-        <div className={styles.glob_2}/>
-        <div className={styles.glob_3}/>
-        <div className={styles.glob_4}/>
-        <div className={styles.glob_5}/>
-        <div className={styles.glob_6}/>
-        <div className={styles.glob_7}/>
+      <section className={styles.bg}>
+        <div className={styles.glob_1} />
+        <div className={styles.glob_2} />
+        <div className={styles.glob_3} />
+        <div className={styles.glob_4} />
+        <div className={styles.glob_5} />
+        <div className={styles.glob_6} />
+        <div className={styles.glob_7} />
       </section>
-      <main className="w-full h-screen flex justify-center items-center">
+      <main className="relative w-full h-screen flex justify-center items-center">
         <Board characters={characters} />
+        <ReloadButton />
       </main>
     </>
   );
