@@ -1,7 +1,8 @@
-## Credit
+## Credits
 
-[Lava lamp background effect](https://codepen.io/jorrikklijnsma/pen/LYqZeoB?editors=0100)
-[Deploying Next js app to Github Action](https://www.freecodecamp.org/news/how-to-deploy-next-js-app-to-github-pages/)
+- [Lava lamp background effect](https://codepen.io/jorrikklijnsma/pen/LYqZeoB?editors=0100)
+- [3D card css](https://dev.to/smpnjn/making-3d-css-flippable-cards-3nbl)
+- [Pure css card flip](https://codepen.io/edeesims/pen/wvpYWW)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
