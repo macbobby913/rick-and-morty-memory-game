@@ -1,15 +1,19 @@
 "use client";
+import styles from "./styles.module.scss";
 import { RotateCcw } from "lucide-react";
 
 function index() {
   return (
     <button
-      className="absolute text-white  bottom-4 right-4 bg-pink-600  w-16 h-16 rounded-full flex justify-center items-center"
+      className={styles.outer}
       onClick={() => {
         window.location.reload();
       }}
     >
-      <RotateCcw strokeWidth={3} size={30}/>
+      <div className={styles.inner}>
+        <RotateCcw className={styles.icon} strokeWidth={3} size={30} />
+        <RotateCcw className={styles.icon_shadow} strokeWidth={6} size={30} />
+      </div>
     </button>
   );
 }
