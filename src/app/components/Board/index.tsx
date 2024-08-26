@@ -1,6 +1,6 @@
 "use client";
 import { Character, CharactersResJSON } from "@/app/type/characters";
-import Card, { OnCardFlippedEventInfo } from "../Card";
+import Card, { OnCardFlippedUpwardEventInfo } from "../Card";
 import styles from "./styles.module.scss";
 import { useState, useEffect, useCallback } from "react";
 
@@ -60,35 +60,35 @@ function Board() {
   }, []);
 
   // ----------------------- 2. keeping track of cards that are flipped upward by the player (card is front facing up) ------------------------
-  const [cardFlippedEventInfoList, setCardFlippedEventInfoList] = useState<
-    OnCardFlippedEventInfo[]
+  const [cardFlippedUpwardEventInfoList, setCardFlippedUpwardEventInfoList] = useState<
+    OnCardFlippedUpwardEventInfo[]
   >([]);
 
-  const handleCardFlipped = useCallback((event: OnCardFlippedEventInfo) => {
-    setCardFlippedEventInfoList((prev) => [...prev, event]);
+  const handleCardFlippedUpward = useCallback((event: OnCardFlippedUpwardEventInfo) => {
+    setCardFlippedUpwardEventInfoList((prev) => [...prev, event]);
   }, []);
 
   // ------------------------------------------- 3. determination logic when player flipped 2 cards --------------------------------------------
   useEffect(() => {
-    if (cardFlippedEventInfoList.length < 2) return;
+    if (cardFlippedUpwardEventInfoList.length < 2) return;
     // 3. a. if two cards are the same (same character), make both cards remain front facing up
     if (
-      cardFlippedEventInfoList[0].characterName ===
-      cardFlippedEventInfoList[1].characterName
+      cardFlippedUpwardEventInfoList[0].characterName ===
+      cardFlippedUpwardEventInfoList[1].characterName
     ) {
       // clear event info list
-      setCardFlippedEventInfoList([]);
+      setCardFlippedUpwardEventInfoList([]);
       return;
     }
     // 3. b. if both cards are different, flip'em back (make them front facing down)
     setTimeout(() => {
-      cardFlippedEventInfoList.forEach((info) => {
-        info.makeCardFrontFacingDown();
+      cardFlippedUpwardEventInfoList.forEach((info) => {
+        info.flipCardDownward();
       });
     }, 400);
     // clear event info list
-    setCardFlippedEventInfoList([]);
-  }, [cardFlippedEventInfoList]);
+    setCardFlippedUpwardEventInfoList([]);
+  }, [cardFlippedUpwardEventInfoList]);
 
   // ------------------------------------------------------ 4. render character cards ---------------------------------------------------------
   return (
@@ -98,7 +98,7 @@ function Board() {
           key={index}
           src={character.image}
           alt={character.name}
-          onCardFlipped={handleCardFlipped}
+          onCardFlippedUpward={handleCardFlippedUpward}
         />
       ))}
     </section>

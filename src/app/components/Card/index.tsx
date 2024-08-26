@@ -12,22 +12,22 @@ import Image from "next/image";
       a. card "look at" cursor position
       b. flipping card upward or downward (making card's front facing up or down)
 
-    3. Logic for WHEN to fire "onCardFlipped" callback when a card FINISHES flipping animation
-      a. passing "makeCardFrontFacingDown" callback to "Board"
+    3. Logic for WHEN to fire "onCardFlippedUpward" callback when a card FINISHES flipping animation for flipping upward
+      a. passing "flipCardDownward" callback to "Board"
   
-  card's front : the side that has the avatar
-  card's back : the side that shows abstract image
+    card's front : the side that has the avatar
+    card's back : the side that shows abstract image
 */
 
-export type OnCardFlippedEventInfo = {
-  makeCardFrontFacingDown: () => void;
+export type OnCardFlippedUpwardEventInfo = {
+  flipCardDownward: () => void;
   characterName: string;
 };
 
 type CardProps = {
   src: string;
   alt: string;
-  onCardFlipped: (event: OnCardFlippedEventInfo) => void;
+  onCardFlippedUpward: (event: OnCardFlippedUpwardEventInfo) => void;
 };
 
 /* 
@@ -103,7 +103,7 @@ const setGlarePosition = (
   )`;
 };
 
-function Card({ src, alt, onCardFlipped }: CardProps) {
+function Card({ src, alt, onCardFlippedUpward }: CardProps) {
   // -------------------------------------------------------- 2. rotation logic -------------------------------------------------------------
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
@@ -148,17 +148,18 @@ function Card({ src, alt, onCardFlipped }: CardProps) {
     };
   }, [cardRef, isFront]);
 
-  // ------------------------ 3. Logic for WHEN to fire "onCardFlipped" callback when a card FINISHES flipping animation ---------------------
+  // ------------------------ 3. Logic for WHEN to fire "onCardFlippedUpward" callback when a card FINISHES flipping animation for flipping upward ---------------------
   const firstRenderCompleted = useRef<boolean>(false);
   useEffect(() => {
     if (firstRenderCompleted.current === false) return;
-    // --------------------------------- 3. a. passing "makeCardFrontFacingDown" callback to "Board" ----------------------------------------
-    const makeCardFrontFacingDown = () => setIsFront(false);
+    // --------------------------------- 3. a. passing "flipCardDownward" callback to "Board" ----------------------------------------
+    if (!isFront) return;
+    const flipCardDownward = () => setIsFront(false);
     setTimeout(
-      () => onCardFlipped({ makeCardFrontFacingDown, characterName: alt }),
+      () => onCardFlippedUpward({ flipCardDownward, characterName: alt }),
       200
     ); // setTimeout is a hacky way to do it
-  }, [isFront, onCardFlipped, alt]);
+  }, [isFront, onCardFlippedUpward, alt]);
 
   useEffect(() => {
     firstRenderCompleted.current = true;
