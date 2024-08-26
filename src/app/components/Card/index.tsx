@@ -174,6 +174,7 @@ function Card({ src, alt, onCardFlippedUpward }: CardProps) {
       }}
       ref={cardRef}
       onClick={() => {
+        if (isFront === true) return;
         setIsFront((prev) => !prev);
       }}
     >
