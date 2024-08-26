@@ -4,6 +4,7 @@
 - [Lava lamp background effect](https://codepen.io/jorrikklijnsma/pen/LYqZeoB?editors=0100)
 - [3D card css](https://dev.to/smpnjn/making-3d-css-flippable-cards-3nbl)
 - [Pure css card flip](https://codepen.io/edeesims/pen/wvpYWW)
+- [Css loading animations](https://codepen.io/Manoz/pen/kyWvQw)
 
 ## Why Does This Project Exists?
 
