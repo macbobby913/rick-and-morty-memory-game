@@ -1,8 +1,15 @@
 ## Credits
 
+- [Rick and Morty API](https://rickandmortyapi.com/)
 - [Lava lamp background effect](https://codepen.io/jorrikklijnsma/pen/LYqZeoB?editors=0100)
 - [3D card css](https://dev.to/smpnjn/making-3d-css-flippable-cards-3nbl)
 - [Pure css card flip](https://codepen.io/edeesims/pen/wvpYWW)
+
+## Why Does This Project Exists?
+
+This is me making a game just 4 fun!
+
+<br/>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
