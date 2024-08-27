@@ -4,6 +4,7 @@ import Card, { OnCardFlippedUpwardEventInfo } from "../Card";
 import styles from "./styles.module.scss";
 import { useState, useEffect, useCallback } from "react";
 import Loading from "../Loading";
+import ReloadButton from "../ReloadButton";
 
 /* 
   "Board" is responsible for : 
@@ -25,6 +26,7 @@ function Board() {
   // ------------------------------------------------------------- 1. fetch characters ---------------------------------------------------------
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [refetchToggle, setRefetchToggle] = useState(false);
   /* 
     The "characters" array here will have doubled & shuffled characters after the fetch is finished, 
     which is what "Board" desired :)
@@ -68,7 +70,7 @@ function Board() {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [refetchToggle]);
 
   // ----------------------- 2. keeping track of cards that are flipped upward by the player (card is front facing up) ------------------------
   const [cardFlippedUpwardEventInfoList, setCardFlippedUpwardEventInfoList] =
@@ -103,22 +105,32 @@ function Board() {
     setCardFlippedUpwardEventInfoList([]);
   }, [cardFlippedUpwardEventInfoList]);
 
+  useEffect(() => {
+    setCardFlippedUpwardEventInfoList([]);
+  }, [refetchToggle]);
+
   // ------------------------------------------------------ 4. render character cards ---------------------------------------------------------
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
-        <section className={styles.board}>
-          {characters?.map((character, index) => (
-            <Card
-              key={index}
-              src={character.image}
-              alt={character.name}
-              onCardFlippedUpward={handleCardFlippedUpward}
-            />
-          ))}
-        </section>
+        <>
+          <section className={styles.board}>
+            {characters?.map((character, index) => (
+              <Card
+                key={index}
+                src={character.image}
+                alt={character.name}
+                onCardFlippedUpward={handleCardFlippedUpward}
+              />
+            ))}
+          </section>
+          <ReloadButton
+            onClick={() => setRefetchToggle((prev) => !prev)}
+            disabled={isLoading}
+          />
+        </>
       )}
     </>
   );

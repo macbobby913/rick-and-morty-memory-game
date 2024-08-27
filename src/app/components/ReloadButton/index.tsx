@@ -2,20 +2,18 @@
 import styles from "./styles.module.scss";
 import { RotateCcw } from "lucide-react";
 
-function index() {
+function ReloadButton({
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
-      className={styles.outer}
-      onClick={() => {
-        window.location.reload();
-      }}
-    >
+    <button className={styles.button} {...props}>
       <div className={styles.inner}>
-        <RotateCcw className={styles.icon} strokeWidth={3} size={30} />
-        <RotateCcw className={styles.icon_shadow} strokeWidth={6} size={30} />
+        <RotateCcw strokeWidth={3} className={styles.icon_shadow_1} size={31} />
+        <div className={styles.icon_shadow_2} />
+        <RotateCcw strokeWidth={3} className={styles.icon} size={28} />
       </div>
     </button>
   );
 }
 
-export default index;
+export default ReloadButton;

@@ -1,6 +1,4 @@
 import Board from "./components/Board";
-import ReloadButton from "./components/ReloadButton";
-import { CharactersResJSON } from "./type/characters";
 import styles from "./styles.module.scss";
 
 export default async function Home() {
@@ -17,7 +15,6 @@ export default async function Home() {
       </section>
       <main className="relative w-full h-screen flex justify-center items-center">
         <Board />
-        <ReloadButton />
       </main>
     </>
   );

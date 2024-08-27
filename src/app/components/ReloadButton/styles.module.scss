@@ -1,42 +1,64 @@
-.outer {
-  width: 60px;
-  height: 60px;
+.button {
+  box-shadow: inset 0 -3px 4px -1px rgba(0, 0, 0, 0.8),
+    inset 0 3px 4px -1px rgba(255, 255, 255, 0.2),
+    inset 0 0 5px 5px rgba(210, 30, 156, 1), inset 0 20px 30px 0 #aa197f;
+  background: #d21e9c;
   border-radius: 50%;
-  background: linear-gradient(135deg, pink, deeppink, rgb(195, 16, 111));
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  height: 60px;
+  width: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0px 0px 5px 2px rgb(94, 10, 53);
-  transition: all 0.3s cubic-bezier(1, 0, 0, 1);
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  transition: 0.2s cubic-bezier(1, 0, 0, 1);
 
   .inner {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(355deg, deeppink, rgb(195, 16, 111));
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-
-    .icon {
-      color: white;
-      z-index: 1;
-    }
-
-    .icon_shadow {
-      position: absolute;
-      top: 49%;
-      left: 50%;
-      transform: translateY(-50%) translateX(-50%);
-      color: rgba(168, 2, 91, 0.463);
-    }
   }
 
-  &:active {
-    transform: scale(0.8);
+  .icon_shadow_1 {
+    color: #91126b;
+    transition: 0.2s cubic-bezier(1, 0, 0, 1);
+  }
+  .icon_shadow_2 {
+    position: absolute;
+    top: 49%;
+    left: 49%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px 2px #91126b;
+    transition: 0.2s cubic-bezier(1, 0, 0, 1);
+  }
+  .icon {
+    position: absolute;
+    color: rgb(222, 222, 222);
+    top: 51%;
+    left: 49%;
+    transform: translateY(-50%) translateX(-50%);
+    transition: 0.2s cubic-bezier(1, 0, 0, 1);
+  }
+
+  &:active,
+  &[active],
+  &:active,
+  &[disabled] {
+    box-shadow: inset 0 -3px 4px -1px rgba(0, 0, 0, 0.8),
+      inset 0 3px 4px -1px rgba(255, 255, 255, 0.2), inset 0 20px 30px 0 #7b125b;
+    background: #7d125d;
+
+    transform: scale(0.9);
+    .icon_shadow_1 {
+      color: #5f0b46;
+    }
+    .icon_shadow_2 {
+      box-shadow: 0 1px 1px 2px #5f0b46;
+    }
+    .icon {
+      color: rgb(167, 165, 165);
+    }
   }
 }
