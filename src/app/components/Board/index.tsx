@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { useState, useEffect, useCallback } from "react";
 import Loading from "../Loading";
 import ReloadButton from "../ReloadButton";
+import LevelSelector from "../LevelSelector";
 
 /* 
   "Board" is responsible for : 
@@ -126,6 +127,7 @@ function Board() {
               />
             ))}
           </section>
+          <LevelSelector/>
           <ReloadButton
             onClick={() => setRefetchToggle((prev) => !prev)}
             disabled={isLoading}
